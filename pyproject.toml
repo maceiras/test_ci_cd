@@ -1,0 +1,19 @@
+[build-system]
+requires = ["setuptools", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "simple-fastapi"
+version = "1.0.0"
+dependencies = [
+    "fastapi",
+    "uvicorn",
+    "httpx",
+    "pytest"
+]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+python_files = ["test_*.py"]
+python_functions = ["test_*"]
+addopts = ["-v"]

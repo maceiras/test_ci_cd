@@ -1,0 +1,44 @@
+name: CI
+
+on: [push, pull_request]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v4
+        # Étape 1 : Récupère ton code source depuis le repo
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+        # Étape 2 : Installe Python 3.12 dans la VM
+
+      - name: Install dependencies
+        run: |
+          pip install -e .
+        # Étape 3 : Installe le projet avec ses dépendances depuis pyproject.toml
+
+      - name: Run tests
+        run: pytest -q
+        # Étape 4 : Lance les tests unitaires avec pytest
+
+      - name: Log in to GitHub Container Registry
+        uses: docker/login-action@v3
+        with:
+          registry: ghcr.io
+          username: ${{ github.actor }}
+          password: ${{ secrets.GITHUB_TOKEN }}
+        # Étape 5 : Connexion à GHCR avec ton compte GitHub
+        # (le GITHUB_TOKEN est fourni automatiquement par GitHub)
+
+      - name: Build and push Docker image
+        run: |
+          docker build -t ghcr.io/${{ github.repository }}/fastapi-app:latest .
+          docker push ghcr.io/${{ github.repository }}/fastapi-app:latest
+        # Étape 6 :
+        # - Construit l'image Docker avec le code du repo
+        # - Tag "ghcr.io/<utilisateur>/<repo>/fastapi-app:latest"
+        # - Pousse l'image vers GHCR
