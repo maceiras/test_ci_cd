@@ -36,9 +36,9 @@ jobs:
 
       - name: Build and push Docker image
         run: |
-          docker build -t ghcr.io/${{ github.repository }}/fastapi-app:latest .
-          docker push ghcr.io/${{ github.repository }}/fastapi-app:latest
+          docker build -t ghcr.io/${{ github.repository }}/test_ci_cd:latest .
+          docker push ghcr.io/${{ github.repository }}/test_ci_cd:latest
         # Étape 6 :
         # - Construit l'image Docker avec le code du repo
-        # - Tag "ghcr.io/<utilisateur>/<repo>/fastapi-app:latest"
+        # - Tag "ghcr.io/<utilisateur>/<repo>/test_ci_cd:latest"
         # - Pousse l'image vers GHCR
